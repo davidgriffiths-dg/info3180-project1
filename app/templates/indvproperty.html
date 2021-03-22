@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block main %}
+{% for item in p%}
+<div class="row">
+    <div class="column">
+        <img class="propimg" src=" {{url_for('get_image', filename=item.photo)}} " /> 
+    </div>
+
+    <div class="column column2">
+        <h2 class="title">{{item.title}} </h2>
+
+        <div class="first">
+            <span class="individualprice">${{item.price}} </span>
+            <span class="individualtype">{{item.property_type}} </span>
+        </div>
+
+
+        <p> {{item.description}}</p>
+        <div class="second">
+            <span class="Bedrooms"><img class="icon" src="{{url_for('static', filename='bed.png')}}" />{{item.rooms}} Bedrooms</span>
+            <span class="bathrooms"><img class="icon" src="{{url_for('static', filename='shower.jpg')}}" />{{item.bathrooms}} Bathrooms </span>
+
+        </div>
+        <h6> <img class="icon" src="{{url_for('static', filename='location.png')}}" />{{item.location}} </h6>
+        <button type="button" class="btn"> Email Realtor</button>
+    </div>
+
+</div>
+{% endfor%} 
+{% endblock %}

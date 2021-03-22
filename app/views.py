@@ -38,7 +38,7 @@ def property():
         db.session.add(Property(form.title.data, form.description.data, form.rooms.data, form.bathrooms.data, form.price.data, form.property_type.data, form.location.data, filename))
         db.session.commit()
         flash("Property successfully added !", "success")
-        return redirect(url_for(properties))
+        return redirect(url_for('properties'))
     flash_errors(form)
     return render_template('property.html', form = form)
 
@@ -48,11 +48,14 @@ def properties():
     return render_template('properties.html', proplist = proplist)
 
 @app.route('/property/<propertyid>', methods =['GET'])
-def getproperty(propertyid):
-    p = Property.query.filter_by(pid = propertyid).first()
+def indvproperty(propertyid):
+    p = db.session.query(Property).filter_by(pid=propertyid)
     return render_template('indvproperty.html', p=p)
 
-
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    rootdir = os.getcwd()
+    return  send_from_directory(os.path.join(rootdir,app.config['UPLOAD_FOLDER']),filename)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
