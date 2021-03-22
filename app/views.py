@@ -27,6 +27,30 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="David Griffiths")
 
+@app.route('/property/', methods=['POST', 'GET'])
+def property():
+    """Render the website's add property form."""
+    form = PropertyForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        photo = form.photo.data
+        filename = secure_filename(photo.filename)
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        db.session.add(Property(form.title.data, form.description.data, form.rooms.data, form.bathrooms.data, form.price.data, form.property_type.data, form.location.data, filename))
+        db.session.commit()
+        flash("Property successfully added !", "success")
+        return redirect(url_for(properties))
+    flash_errors(form)
+    return render_template('property.html', form = form)
+
+@app.route('/properties')
+def properties():
+    proplist = Property.query.all()
+    return render_template('properties.html', proplist = proplist)
+
+@app.route('/property/<propertyid>', methods =['GET'])
+def getproperty(propertyid):
+    p = Property.query.filter_by(pid = propertyid).first()
+    return render_template('indvproperty.html', p=p)
 
 
 ###
