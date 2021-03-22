@@ -4,9 +4,12 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
-
-from app import app
-from flask import render_template, request, redirect, url_for
+import os
+from app import app,db
+from flask import render_template, flash, request, redirect, url_for,send_from_directory
+from .forms import PropertyForm
+from app.models import Property
+from werkzeug.utils import secure_filename
 
 
 ###
@@ -22,7 +25,8 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="David Griffiths")
+
 
 
 ###
