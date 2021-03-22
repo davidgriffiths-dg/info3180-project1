@@ -154,4 +154,7 @@ h2{
 
 .descr{
     font-weight: 500;
+    justify-content: center;
+    text-align: center;
+    word-wrap: break-word;
 }
